@@ -2,10 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 function App() {
   const [password, setPassword] = useState("");
+  const [click, setClick] = useState("click");
   const [length, setLength] = useState(8);
   const [charAllow, setCharAllow] = useState(false);
   const [numAllow, setNumAllow] = useState(false);
 
+  const changeClickState = ()=>{
+    setClick("clicked!");
+  }
+
+  useEffect(()=>{
+    setClick("click")
+  }, [length, charAllow, numAllow])
   const genPass = useCallback(() => {
     let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if(numAllow) base += "0123456789"
@@ -27,7 +35,7 @@ function App() {
         <div>
           <h1 className='text-white'>PASSWORD GENERATOR</h1>
           <input type="text" placeholder='password' value={password}  className='rounded-md p-3 my-3' />
-          <button className='bg-blue-600 text-white rounded-md p-3 my-2'>copy</button>
+          <button className='bg-blue-600 text-white rounded-md p-3 my-2' onClick={()=>changeClickState()} >{click}</button>
         </div>
         <input type="range" min={6} max={100} className='cursor-pointer m-3' onChange={(e) => {setLength(e.target.value)}} /> <label>length : {length}</label>
         <input type="checkbox" defaultChecked = {false} className='m-3' onChange={(prev)=>setNumAllow(prev => !prev)} /> <label>want numbers?</label>
